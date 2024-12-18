@@ -35,7 +35,7 @@ extension CoinRowView {
                 .font(.caption)
                 .foregroundColor(Color.theme.secondaryText)
                 .frame(minWidth: 30)
-            Circle()
+            CoinImageView(coin: coin)
                 .frame(width: 30, height: 30)
             Text(coin.symbol.uppercased())
                 .font(.headline)
@@ -51,8 +51,8 @@ extension CoinRowView {
             Text((coin.currentHoldings ?? 0).asNumberString())
         }.foregroundColor(Color.theme.accent)
     }
-    
-    private var rightColumn: some View{
+
+    private var rightColumn: some View {
         VStack(alignment: .trailing) {
             Text(coin.currentPrice.asCurrencyWith6Decimals())
                 .bold()
