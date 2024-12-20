@@ -26,7 +26,7 @@ class NetworkingManager {
 
     //
     static func download(url: URL) -> AnyPublisher<Data, any Error> {
-        print("Downloading...")
+        print("download from url: \(url)")
         return URLSession.shared.dataTaskPublisher(for: url)
             .subscribe(on: DispatchQueue.global(qos: .default))
             .tryMap { try handleURLResponse(output: $0, url: url) }
@@ -35,6 +35,9 @@ class NetworkingManager {
     }
 
     static func handleURLResponse(output: URLSession.DataTaskPublisher.Output, url: URL) throws -> Data {
+        print("response : \(output.response)")
+        print("data : \(String(describing: String(bytes: output.data, encoding: String.Encoding(rawValue: NSUTF8StringEncoding))))")
+
         guard let response = output.response as? HTTPURLResponse,
               response.statusCode >= 200, response.statusCode < 300
         else {
@@ -48,7 +51,7 @@ class NetworkingManager {
         case .finished:
             break
         case .failure(let error):
-            print("Error: \(error.localizedDescription)")
+            print("Error: \(error)")
         }
     }
 }
